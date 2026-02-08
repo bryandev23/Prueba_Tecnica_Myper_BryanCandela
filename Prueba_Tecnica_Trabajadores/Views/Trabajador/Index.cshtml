@@ -1,0 +1,69 @@
+﻿@model List<Prueba_Tecnica_Trabajadores.Models.ViewModels.TrabajadorDTO>
+
+@{
+    ViewData["Title"] = "Gestión de Trabajadores";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary">Trabajadores</h2>
+            <p class="text-muted">Administra el personal de tu empresa</p>
+        </div>
+        <button onclick="mostrarModal('@Url.Action("Crear", "Trabajador")', 'Nuevo Trabajador')"
+                class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-lg"></i> Nuevo Trabajador
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-3">
+            <div class="row g-2 align-items-center">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                        <input type="text" id="txtBusqueda" class="form-control border-start-0 ps-0"
+                               placeholder="Buscar por nombre o documento..." autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="col-md-4 text-md-end">
+                    <div class="btn-group w-100" role="group" aria-label="Filtro de sexo">
+                        <input type="radio" class="btn-check" name="filtroSexo" id="sexoTodos" value="" checked onchange="actualizarTabla()">
+                        <label class="btn btn-outline-secondary" for="sexoTodos">Todos</label>
+
+                        <input type="radio" class="btn-check" name="filtroSexo" id="sexoM" value="M" onchange="actualizarTabla()">
+                        <label class="btn btn-outline-primary" for="sexoM">M</label>
+
+                        <input type="radio" class="btn-check" name="filtroSexo" id="sexoF" value="F" onchange="actualizarTabla()">
+                        <label class="btn btn-outline-warning text-dark" for="sexoF">F</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tablaContainer" class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <partial name="_TablaTrabajadores" model="Model" />
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalGeneral" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="modalContent">
+            <div class="text-center p-4">
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/trabajadores.js"></script>
+}

@@ -4,7 +4,7 @@ namespace Prueba_Tecnica_Trabajadores.Models.ViewModels
 {
     public class VMTrabajadorEditar
     {
-        public int Id { get; set; } // ¡Crucial para saber a quién editar!
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(50)]
@@ -29,7 +29,6 @@ namespace Prueba_Tecnica_Trabajadores.Models.ViewModels
         [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
 
-        // OJO: Aquí no es [Required] porque al editar la foto es opcional
         [Display(Name = "Cambiar Foto (Opcional)")]
         public IFormFile? FotoArchivo { get; set; }
 

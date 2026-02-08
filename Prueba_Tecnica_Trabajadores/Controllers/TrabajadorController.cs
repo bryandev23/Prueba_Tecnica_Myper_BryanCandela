@@ -13,10 +13,31 @@ namespace Prueba_Tecnica_Trabajadores.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string busqueda = "", string sexo = "")
         {
-            var listado = await _service.ObtenerListado();
-            return View(listado);
+            var lista = await _service.ObtenerListado();
+
+            if (!string.IsNullOrEmpty(busqueda))
+            {
+                busqueda = busqueda.ToLower();
+                lista = lista.Where(t =>
+                    t.Nombres.ToLower().Contains(busqueda) ||
+                    t.Apellidos.ToLower().Contains(busqueda) ||
+                    t.Nro_Documento.Contains(busqueda)
+                ).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(sexo))
+            {
+                lista = lista.Where(t => t.Sexo == sexo).ToList();
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_TablaTrabajadores", lista);
+            }
+
+            return View(lista);
         }
 
         [HttpGet]

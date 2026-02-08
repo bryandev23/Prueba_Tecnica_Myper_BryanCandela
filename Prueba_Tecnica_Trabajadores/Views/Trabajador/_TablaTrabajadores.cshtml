@@ -1,0 +1,90 @@
+﻿@model List<Prueba_Tecnica_Trabajadores.Models.ViewModels.TrabajadorDTO>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Foto</th>
+                <th>Nombre Completo</th>
+                <th>Documento</th>
+                <th>F. Nacimiento</th>
+                <th>Sexo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        No se encontraron trabajadores con ese criterio.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    string estiloFila = "";
+                    if (item.Sexo == "M")
+                    {
+                        estiloFila = "background-color: #e3f2fd; --bs-table-bg: #e3f2fd;";
+                    }
+                    else
+                    {
+                        estiloFila = "background-color: #ffe0b2; --bs-table-bg: #ffe0b2;";
+                    }
+
+                    <tr style="@estiloFila">
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Foto))
+                            {
+                                <img src="@item.Foto" class="rounded-circle border border-white" width="40" height="40" style="object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary rounded-circle p-2">SD</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="fw-bold text-dark">@item.Nombres @item.Apellidos</div>
+                            <small class="text-muted" style="color: #444 !important;">@item.Direccion</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border border-secondary bg-opacity-75">@item.Tipo_Documento</span>
+                            <div class="fw-semibold text-dark">@item.Nro_Documento</div>
+                        </td>
+
+                        <td>
+                            <div class="d-flex align-items-center text-dark">
+                                <i class="bi bi-calendar3 me-2 text-muted"></i>
+                                <span>@item.Fecha_Nacimiento.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            @if (item.Sexo == "M")
+                            {
+                                <span class="fw-bold text-primary"><i class="bi bi-gender-male"></i> M</span>
+                            }
+                            else
+                            {
+                                <span class="fw-bold text-danger"><i class="bi bi-gender-female"></i> F</span>
+                            }
+                        </td>
+                        <td>
+                            <button onclick="mostrarModal('@Url.Action("Editar", "Trabajador", new { id = item.Id })', 'Editar Trabajador')"
+                                    class="btn btn-sm btn-light border shadow-sm text-primary me-1" title="Editar">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button onclick="eliminarTrabajador(@item.Id)"
+                                    class="btn btn-sm btn-light border shadow-sm text-danger" title="Eliminar">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

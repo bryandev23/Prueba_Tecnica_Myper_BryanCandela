@@ -3,7 +3,6 @@ using Prueba_Tecnica_Trabajadores.Models;
 using Prueba_Tecnica_Trabajadores.Repositories;
 using Prueba_Tecnica_Trabajadores.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -12,7 +11,6 @@ builder.Services.AddDbContext<TrabajadoresPruebaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CadenaSQL")));
 
 builder.Services.AddScoped<ITrabajadorRepository, TrabajadorRepository>();
-
 builder.Services.AddScoped<ITrabajadorService, TrabajadorService>();
 
 var app = builder.Build();
@@ -32,7 +30,6 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Trabajador}/{action=Index}/{id?}");
 
 app.Run();
